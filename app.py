@@ -1,11 +1,11 @@
 # app.py
-# The Flask Web Application Backend for Project Chimera (MVP - Definitive, Final Corrected)
+# The Flask Web Application Backend for Project Chimera (MVP - Now with Groq Brain)
 
 import os
 import json 
 from flask import Flask, render_template, request, jsonify, session
 from dotenv import load_dotenv
-from openai import OpenAI
+from groq import Groq # NEW: Import Groq
 
 # Import our custom modules
 import config
@@ -18,9 +18,13 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 if not app.secret_key:
     raise ValueError("No FLASK_SECRET_KEY set for Flask application")
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# --- NEW: Initialize the Groq client ---
+# The OpenAI client can be removed if you no longer use it for other features.
+# For now, we will create the Groq client as our primary brain.
+groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-# --- Local Game Management Functions (Pulled from game_manager.py for stability) ---
+
+# --- Local Game Management Functions (Unchanged) ---
 def save_game_local(history, filename):
     if not os.path.exists(config.SAVE_FOLDER): os.makedirs(config.SAVE_FOLDER)
     filepath = os.path.join(config.SAVE_FOLDER, filename)
@@ -56,13 +60,14 @@ def delete_game_local(filename):
         return False
 
 
-# --- Frontend Routes ---
+# --- Frontend Routes (Unchanged) ---
 @app.route("/")
 def home():
     session.clear() 
     return render_template("index.html")
 
-# --- API Routes ---
+
+# --- API Routes (Updated to pass the correct client) ---
 @app.route("/api/delete_game", methods=["POST"])
 def api_delete_game():
     data = request.json
@@ -103,8 +108,8 @@ def start_new_game():
     system_prompt = config.create_system_prompt(genre, user_vision, story_title)
     conversation_history = [{"role": "system", "content": system_prompt}]
     
-    # We now correctly pass the client object to our get_ai_response function
-    ai_response = get_ai_response(conversation_history, client)
+    # We now pass the groq_client object to our get_ai_response function
+    ai_response = get_ai_response(conversation_history, groq_client)
     
     if ai_response and "Error:" not in ai_response:
         conversation_history.append({"role": "assistant", "content": ai_response})
@@ -128,8 +133,8 @@ def send_message():
     conversation_history, filename = game_state["history"], game_state["filename"]
     conversation_history.append({"role": "user", "content": user_input})
     
-    # We now correctly pass the client object
-    ai_response = get_ai_response(conversation_history, client)
+    # We now pass the groq_client object
+    ai_response = get_ai_response(conversation_history, groq_client)
     
     if ai_response and "Error:" not in ai_response:
         conversation_history.append({"role": "assistant", "content": ai_response})
