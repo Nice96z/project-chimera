@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Chimera</title>
+    
+    <style>
+        /* --- Unabridged, Completed, and Upgraded Stylesheet --- */
+        
+        :root { --background-color: #121212; --surface-color: #1e1e1e; --primary-text-color: #e0e0e0; --secondary-text-color: #a0a0a0; --accent-color: #9b59b6; --accent-hover-color: #8e44ad; }
+        body, html { height: 100%; margin: 0; font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; background-color: var(--background-color); color: var(--primary-text-color); overflow: hidden; }
+        .container { display: flex; flex-direction: column; height: 100vh; max-width: 800px; margin: 0 auto; background-color: var(--surface-color); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        header { display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; border-bottom: 1px solid #333; }
+        header h1 { color: var(--accent-color); font-size: 1.5rem; font-weight: 500; letter-spacing: 1px; }
+        #header-buttons { display: none; /* Hidden until a game starts */ gap: 1rem; }
+        .header-btn { background: none; border: 1px solid var(--secondary-text-color); color: var(--secondary-text-color); font-size: 1.2rem; cursor: pointer; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .header-btn:hover { background-color: #333; color: white; border-color: white; }
+        
+        #story-window { flex-grow: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; scrollbar-width: thin; scrollbar-color: var(--accent-color) var(--background-color); }
+        #story-window::-webkit-scrollbar { width: 8px; }
+        #story-window::-webkit-scrollbar-track { background: var(--background-color); }
+        #story-window::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
+        
+        #main-menu { padding: 2rem; text-align: center; }
+        #main-menu h2 { font-weight: 500; border-bottom: 1px solid #444; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        #load-game-section { margin-bottom: 2rem; }
+        #setup-screen label, #load-game-section label { display: block; margin: 1rem 0 0.5rem 0; font-size: 1.2rem; font-weight: 500; color: var(--accent-color); }
+        #setup-screen select, #setup-screen input, #load-game-section select { width: 100%; padding: 0.8rem; box-sizing: border-box; border: 1px solid #444; background-color: #2c2c2c; color: var(--primary-text-color); border-radius: 8px; font-size: 1rem; transition: border-color 0.3s; }
+        #setup-screen select:focus, #setup-screen input:focus, #load-game-section select:focus { outline: none; border-color: var(--accent-color); }
+        #setup-screen button, #load-game-section button { padding: 0.8rem 1.5rem; margin-top: 1rem; border-radius: 8px; border: none; background-color: var(--accent-color); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        #setup-screen button:hover, #load-game-section button:hover { background-color: var(--accent-hover-color); }
+        
+        /* New Style for Load/Delete button container */
+        .load-buttons { display: flex; justify-content: center; gap: 1rem; }
+        /* New Style for the Delete button */
+        #delete-game-button { background-color: #e74c3c; /* A distinct 'danger' red */ }
+        #delete-game-button:hover { background-color: #c0392b; }
+
+        .message { max-width: 75%; padding: 0.8rem 1.2rem; border-radius: 18px; margin-bottom: 0.8rem; line-height: 1.5; white-space: pre-wrap; opacity: 0; transform: translateY(20px); animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        .chimera-message { background-color: #333333; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .user-message { background-color: var(--accent-color); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .thinking-indicator { align-self: flex-start; font-style: italic; color: var(--secondary-text-color); }
+        
+        #input-area { display: none; flex-direction: row; align-items: center; padding: 1rem; border-top: 1px solid #333; background-color: var(--surface-color); }
+        #user-input { flex-grow: 1; padding: 0.8rem; border: none; background-color: #333; color: var(--primary-text-color); border-radius: 20px; font-size: 1rem; resize: none; }
+        #user-input:focus { outline: 2px solid var(--accent-color); }
+        #send-button { margin-left: 1rem; padding: 0.8rem 1.2rem; border: none; background-color: var(--accent-color); color: white; border-radius: 50%; cursor: pointer; transition: background-color 0.2s; font-size: 1.2rem; }
+        #send-button:disabled { background-color: #555; cursor: not-allowed; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s ease; }
+        .modal-content { background: var(--surface-color); padding: 2rem; border-radius: 8px; max-width: 500px; width: 90%; border: 1px solid #444; position: relative; }
+        .modal-content h2 { margin-top: 0; color: var(--accent-color); }
+        .modal-content p { line-height: 1.6; }
+        .modal-content strong, .modal-content code { color: var(--accent-color); background-color: #2c2c2c; padding: 2px 4px; border-radius: 4px; }
+        .modal-content ul { padding-left: 20px; }
+        .close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Project Chimera</h1>
+            <div id="header-buttons">
+                <button class="header-btn" id="help-button" title="Help">?</button>
+                <button class="header-btn" id="back-button" title="Save and Exit">&#8617;</button>
+            </div>
+        </header>
+        
+        <div id="story-window">
+            <div id="main-menu">
+                <div id="load-game-section" style="display: none;">
+                    <h2>Continue a Saved Story</h2>
+                    <select id="saved-games-select"></select>
+                    <div class="load-buttons">
+                        <button id="load-game-button">Continue</button>
+                        <button id="delete-game-button">Delete</button>
+                    </div>
+                    <hr style="margin: 2rem 0; border-color: #444;">
+                </div>
+                <div id="setup-screen">
+                    <h2>Create a New Universe</h2>
+                    <label for="genre-select">Choose Your Genre</label>
+                    <select id="genre-select"></select>
+                    <label for="user-vision-input">Describe Your Starting Situation</label>
+                    <input type="text" id="user-vision-input" placeholder="e.g., A lone survivor in a crashed starship.">
+                    <label for="story-title-input">Give Your Story a Title</label>
+                    <input type="text" id="story-title-input" placeholder="e.g., The Echoes of a Dead Star">
+                    <button id="start-game-button">Begin</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="input-area" style="display: none;">
+            <input type="text" id="user-input" placeholder="What happens next?">
+            <button id="send-button">&#10148;</button> 
+        </div>
+    </div>
+    
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-help-button" class="close-btn">&times;</button>
+            <h2>How to Play</h2>
+            <ul>
+                <li><p><strong>To SPEAK,</strong> enclose your words in <code>"quotation marks"</code>.</p></li>
+                <li><p><strong>To perform an ACTION,</strong> just type what you want to do.</p></li>
+                <li><p><strong>To express a THOUGHT,</strong> enclose it in <code>*asterisks*</code>.</p></li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // --- Unabridged, Completed, and Upgraded JavaScript ---
+        
+        const mainMenu = document.getElementById('main-menu');
+        const loadGameSection = document.getElementById('load-game-section');
+        const storyWindow = document.getElementById('story-window');
+        const inputArea = document.getElementById('input-area');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const startGameButton = document.getElementById('start-game-button');
+        const loadGameButton = document.getElementById('load-game-button');
+        const deleteGameButton = document.getElementById('delete-game-button'); // New
+        const genreSelect = document.getElementById('genre-select');
+        const savedGamesSelect = document.getElementById('saved-games-select');
+        const headerButtons = document.getElementById('header-buttons');
+        const backButton = document.getElementById('back-button');
+        const helpButton = document.getElementById('help-button');
+        const helpModal = document.getElementById('help-modal');
+        const closeHelpButton = document.getElementById('close-help-button');
+        
+        const genres = ["Fantasy", "Sci-Fi", "Horror", "Thriller", "Romance", "Drama", "Comedy", "Mystery", "Adventure", "Slice of Life", "Western", "Historical Fiction", "Post-Apocalyptic"];
+        genres.forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre; option.textContent = genre;
+            genreSelect.appendChild(option);
+        });
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+            storyWindow.appendChild(messageDiv);
+            storyWindow.scrollTop = storyWindow.scrollHeight;
+        }
+
+        function showThinkingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'thinking';
+            indicator.className = 'message chimera-message thinking-indicator';
+            indicator.innerHTML = '<span>.</span><span>.</span><span>.</span>';
+            const style = document.createElement('style');
+            style.id = 'blinker-style';
+            style.innerHTML = `.thinking-indicator span { animation: blink 1.4s infinite both; font-size: 1.5rem; } .thinking-indicator span:nth-child(2) { animation-delay: .2s; } .thinking-indicator span:nth-child(3) { animation-delay: .4s; } @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }`;
+            document.head.appendChild(style);
+            storyWindow.appendChild(indicator);
+            storyWindow.scrollTop = storyWindow.scrollHeight;
+        }
+
+        function hideThinkingIndicator() {
+            const indicator = document.getElementById('thinking');
+            const blinkerStyle = document.getElementById('blinker-style');
+            if (indicator) indicator.remove();
+            if (blinkerStyle) blinkerStyle.remove();
+        }
+
+        function showGameView() {
+            mainMenu.style.display = 'none';
+            inputArea.style.display = 'flex';
+            headerButtons.style.display = 'flex';
+            userInput.focus();
+        }
+        
+        async function fetchSavedGames() {
+            try {
+                const response = await fetch('/api/get_saved_games');
+                const data = await response.json();
+                if (data.saved_games && data.saved_games.length > 0) {
+                    loadGameSection.style.display = 'block';
+                    savedGamesSelect.innerHTML = '';
+                    data.saved_games.forEach(gameName => {
+                        const option = document.createElement('option');
+                        option.value = gameName; option.textContent = gameName;
+                        savedGamesSelect.appendChild(option);
+                    });
+                } else {
+                    loadGameSection.style.display = 'none'; // Hide if no games exist
+                }
+            } catch (error) { console.error("Could not fetch saved games:", error); }
+        }
+        
+        window.addEventListener('DOMContentLoaded', fetchSavedGames);
+
+        startGameButton.addEventListener('click', async () => {
+            const selectedGenre = genreSelect.value;
+            const userVision = document.getElementById('user-vision-input').value;
+            const storyTitle = document.getElementById('story-title-input').value;
+            if (!userVision.trim() || !storyTitle.trim()) { alert('Please fill out all fields.'); return; }
+            mainMenu.innerHTML = '<h2>Generating your universe...</h2>';
+            try {
+                const response = await fetch('/api/start_new_game', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ genre: selectedGenre, user_vision: userVision, story_title: storyTitle }) });
+                const data = await response.json();
+                if (response.ok) {
+                    showGameView();
+                    addMessage(data.initial_response, 'chimera');
+                } else { throw new Error(data.error || 'Unknown error'); }
+            } catch (error) { mainMenu.innerHTML = `<h2>Error: ${error.message}</h2><p>Please check your server terminal and try again.</p>`; }
+        });
+        
+        loadGameButton.addEventListener('click', async () => {
+            const storyTitle = savedGamesSelect.value;
+            if (!storyTitle) { alert("Please select a story."); return; }
+            mainMenu.innerHTML = '<h2>Loading your universe...</h2>';
+            try {
+                const response = await fetch('/api/load_game', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ story_title: storyTitle }) });
+                const data = await response.json();
+                if (response.ok) {
+                    showGameView();
+                    storyWindow.innerHTML = '';
+                    if (data.history && Array.isArray(data.history)) {
+                        data.history.forEach(message => {
+                            if (message.role === 'user') { addMessage(message.content, 'user'); }
+                            else if (message.role === 'assistant') { addMessage(message.content, 'chimera'); }
+                        });
+                    }
+                } else { throw new Error(data.error || 'Failed to load'); }
+            } catch (error) { mainMenu.innerHTML = `<h2>Error: ${error.message}</h2>`; }
+        });
+        
+        deleteGameButton.addEventListener('click', async () => {
+            const storyTitle = savedGamesSelect.value;
+            if (!storyTitle) { alert("Please select a story to delete."); return; }
+            if (!confirm(`Are you sure you want to permanently delete "${storyTitle}"?`)) { return; }
+            try {
+                const response = await fetch('/api/delete_game', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ story_title: storyTitle }) });
+                const data = await response.json();
+                if (response.ok) {
+                    alert(data.message);
+                    fetchSavedGames(); // Refresh the list
+                } else { throw new Error(data.error || 'Could not delete the file.'); }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            addMessage(message, 'user');
+            userInput.value = '';
+            sendButton.disabled = true;
+            userInput.disabled = true;
+            showThinkingIndicator();
+            try {
+                const response = await fetch('/api/send_message', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: message }) });
+                const data = await response.json();
+                hideThinkingIndicator();
+                if (response.ok) { addMessage(data.response, 'chimera'); }
+                else { throw new Error(data.error || 'Unknown error'); }
+            } catch (error) {
+                hideThinkingIndicator();
+                addMessage(`Error: ${error.message}. Please try again.`, 'chimera');
+            } finally {
+                sendButton.disabled = false;
+                userInput.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }
+        });
+        
+        helpButton.addEventListener('click', () => { helpModal.style.display = 'flex'; });
+        closeHelpButton.addEventListener('click', () => { helpModal.style.display = 'none'; });
+        helpModal.addEventListener('click', (event) => { if (event.target === helpModal) { helpModal.style.display = 'none'; } });
+
+        backButton.addEventListener('click', async () => {
+            if (!confirm("Are you sure you want to exit to the main menu? Your progress is saved automatically.")) { return; }
+            window.location.reload(); // Simple reload is the cleanest way to go back
+        });
+    </script>
+</body>
+</html>

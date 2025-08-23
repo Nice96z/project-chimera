@@ -179,3 +179,10 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# -----------------------------------------------
+# Project Chimera Custom Ignores
+# -----------------------------------------------
+
+# Ignore saved story files, as they are user-generated content, not part of the core application.
+saved_stories/
