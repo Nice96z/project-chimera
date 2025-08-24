@@ -15,28 +15,128 @@ Type 'quit' to save and exit the game.
 GENRES = [
     "Fantasy", "Sci-Fi", "Horror", "Thriller", "Romance", "Drama", "Comedy", 
     "Mystery", "Adventure", "Slice of Life", "Western", "Historical Fiction", 
-    "Literary Fiction", "Young Adult (YA)", "Bedtime Story", "Memoir/Biography", 
-    "Post-Apocalyptic"
+    "Young Adult (YA)", "Save the World", "Zombie Apocalypse", "Post-Apocalyptic",
+    "Bedtime Story", "Memoir/Biography"
 ]
 
 GENRE_EXAMPLES = {
-    "Fantasy": "I am an apprentice who has just found a forbidden spellbook.",
-    "Sci-Fi": "My starship's AI has woken me from cryosleep in an uncharted nebula.",
-    "Horror": "I've woken up in an abandoned hospital with no memory of how I got here.",
-    "Thriller": "I am a journalist who just received a cryptic data file from an anonymous source.",
-    "Romance": "Our eyes met for the first time across a crowded Parisian cafe.",
-    "Drama": "The family has gathered for the reading of the will, and tensions are high.",
-    "Comedy": "I am a zookeeper who has just realized the monkeys have stolen my keys.",
-    "Mystery": "I'm a detective in a rainy city, and a client has just walked into my office.",
-    "Adventure": "I have discovered a treasure map in my grandfather's old sea chest.",
-    "Slice of Life": "It's the first warm day of spring in a small, quiet town.",
-    "Western": "I am a lone rider seeking shelter from a dust storm in a strange town.",
-    "Historical Fiction": "I am a messenger in ancient Rome, carrying a secret scroll to the Senate.",
-    "Literary Fiction": "I am a sitting on a park bench, contemplating a difficult life decision.",
-    "Young Adult (YA)": "It's the first day at a new high school where things are not as they seem.",
-    "Bedtime Story": "A tiny field mouse is preparing for a journey to find the legendary giant strawberry.",
-    "Memoir/Biography": "I'm writing my life story, starting with the day I left my hometown.",
-    "Post-Apocalyptic": "I am a scavenger picking through the ruins of a city, looking for clean water."
+    "Fantasy": [
+        "I am an apprentice who has just found a forbidden spellbook in a dusty library.",
+        "I am the last of the dragon riders, and my egg is finally beginning to hatch.",
+        "I am a royal guard who has just discovered a secret plot to overthrow the queen.",
+        "(Inspired by Supernatural): I am a monster hunter, driving down a lonely highway, heading to a town plagued by strange disappearances.",
+        "I am a grizzled dwarf warrior guarding a remote mountain pass, and I've just spotted a goblin army on the horizon."
+    ],
+    "Sci-Fi": [
+        "My starship's AI has woken me from cryosleep millions of miles from our intended course.",
+        "I am a cybernetic detective hunting a rogue android in the neon-drenched streets of Neo-Kyoto.",
+        "(Inspired by Star Wars): I am a young moisture farmer on a desert planet who has just discovered a hidden message inside a droid.",
+        "(Inspired by Aliens/Predator): I am a colonial marine responding to a distress signal from a terraforming colony, but we've lost contact.",
+        "I am a 'Blade Runner' in a rain-slicked, futuristic Los Angeles, tasked with hunting down replicants."
+    ],
+    "Horror": [
+        "I've woken up in an abandoned hospital with no memory, and a strange lullaby is echoing down the halls.",
+        "I am a lighthouse keeper, and the light has gone out during a terrifying storm. Something is trying to get in.",
+        "(Inspired by From/Stranger Things): My family is trapped in a small, idyllic town from which there is no escape, and terrifying creatures emerge at night.",
+        "I am a paranormal investigator, and my EMF meter is going wild inside the supposedly haunted Blackwood Manor.",
+        "I am the sole survivor of a shipwreck, and I've just washed ashore on an island that isn't on any charts."
+    ],
+    "Thriller": [
+        "I am a journalist who just received a cryptic data file from an anonymous source moments before they disappeared.",
+        "I am a former spy who is being hunted by the very agency I used to work for.",
+        "(Inspired by Blacklist): I am an FBI agent, and the world's most wanted criminal has just turned himself in, demanding to speak only to me.",
+        "I've woken up in a locked hotel room in a foreign city, with a fake passport and a briefcase I don't recognize.",
+        "I am an ordinary person who just witnessed something I was never supposed to see, and now I'm on the run."
+    ],
+    "Romance": [
+        "Our eyes met for the first time across a crowded Parisian cafe, just as the rain started to fall.",
+        "I'm on vacation to forget an old love, and I've just been paired with my high school rival for a dance competition.",
+        "We were childhood best friends, but now, meeting again after ten years, things feel very different.",
+        "I am a professional wedding planner who has fallen for a client, but they are marrying someone else."
+    ],
+    "Drama": [
+        "The family has gathered for the reading of the will, and long-buried secrets are about to be revealed.",
+        "I am a lawyer about to give the closing argument in a case that could make or break my career.",
+        "(Inspired by Prison Break): My brother has been wrongly convicted of murder, and I'm about to get myself incarcerated to break him out.",
+        "I am an aging rock star planning a final comeback tour, but my past mistakes are catching up with me."
+    ],
+    "Comedy": [
+        "I am a zookeeper who has just realized the monkeys have not only stolen my keys, but also my car.",
+        "I am a medieval knight who has accidentally time-traveled to a modern-day supermarket.",
+        "My roommate is a ghost, and he's terrible at paying his share of the rent.",
+        "I am a pet psychic, but today all the animals are giving me terrible financial advice."
+    ],
+    "Mystery": [
+        "I'm a hardboiled detective in a rainy city, and a mysterious client has just walked into my office with an impossible case.",
+        "I am a guest at a remote, snowed-in mansion, and the host has just been found murdered.",
+        "(Inspired by The Mentalist): I am a brilliant consultant who uses sharp observation skills to help the police solve baffling homicides.",
+        "I am a simple village baker who has found a dead body in a sack of flour."
+    ],
+    "Adventure": [
+        "I have discovered a treasure map in my grandfather's old sea chest leading to a forgotten island.",
+        "(Inspired by Jurassic Park): I am a paleontologist who has just been invited to a remote island resort where a billionaire claims to have cloned dinosaurs.",
+        "I am part of a daring expedition to the center of the Earth, and our drill has just broken through to a vast new world."
+    ],
+    "Slice of Life": [
+        "It's the first warm day of spring in a small, quiet town, and the local bakery has just opened.",
+        "I am a student studying in a university library on a rainy afternoon, watching the world go by.",
+        "I've just moved into my first apartment in a big city, and I'm exploring my new neighborhood."
+    ],
+    "Western": [
+        "I am a lone rider seeking shelter from a dust storm in a strange, silent town.",
+        "I am the new sheriff, and the most notorious outlaw in the territory is scheduled to arrive on the noon train.",
+        "I am a prospector who has just struck gold, but I think someone is following me."
+    ],
+    "Historical Fiction": [
+        "I am a messenger in ancient Rome, carrying a secret scroll to the Senate that could change the fate of the Republic.",
+        "I am a baker's apprentice in revolutionary Paris, and the streets are filled with unrest.",
+        "I am a Viking raider making landfall on a strange new shore for the first time."
+    ],
+    "Young Adult (YA)": [
+        "It's the first day at a new high school where magic is real, but I have to keep my own powers a secret.",
+        "(Inspired by Locke & Key): My siblings and I have just moved into our ancestral home, where we've started finding keys that unlock impossible doors.",
+        "(Inspired by Teen Wolf): I am an awkward high school student who was just bitten by a strange animal, and I'm developing weird new abilities."
+    ],
+    "Save the World": [
+        "(Inspired by Marvel/DC): I am an ordinary person who has just discovered I have incredible superpowers as a cataclysmic threat appears on the news.",
+        "I am a scientist who has just received a signal from deep space containing a warning: a world-ending entity is on its way to Earth.",
+        "I am a chosen hero from a prophecy, and today is the day I must begin my quest to stop the encroaching darkness."
+    ],
+    "Zombie Apocalypse": [
+        "I've woken up in a hospital bed to the sound of sirens and screams. The city has fallen, and the undead are walking.",
+        "I am with a small group of survivors in a barricaded shopping mall, but our food supplies are about to run out.",
+        "I am a lone traveler on the road, scavenging for supplies, trying to make it to a rumored safe zone."
+    ],
+    "Post-Apocalyptic": [
+        "I am a scavenger picking through the ruins of a city after the bombs fell, and my water supply is dangerously low.",
+        "I am the operator of a lone radio tower, broadcasting a signal of hope into the silent, empty wastes.",
+        "(Inspired by Book of Eli): I am a lone traveler, guided by a mysterious book, walking across a desolate, post-war America."
+    ],
+    "Bedtime Story": [
+        "A tiny field mouse is preparing for a journey to find the legendary giant strawberry.",
+        "In a cozy burrow, a little badger is listening to the sound of the rain and waiting for a bedtime story.",
+        "A little star is nervous about its first night shining in the big, dark sky."
+    ]
+}
+
+GENRE_TITLES = {
+    "Fantasy": ["The Obsidian Grimoire", "The Last Wyrm", "Whispers in the Throne Room"],
+    "Sci-Fi": ["Adrift Beyond Orion", "Chrome and Shadow", "The Mars Anomaly"],
+    "Horror": ["Ward 7", "The Storm and the Lighthouse", "The House on Hemlock Lane"],
+    "Thriller": ["The Anonymous Source", "Amnesia in Vienna", "The Crimson Ledger"],
+    "Romance": ["Rainy Day in Paris", "The Last Dance", "Ten Summers Later"],
+    "Drama": ["The Beneficiary", "Final Argument", "The Last Letter Home"],
+    "Comedy": ["The Ape Escape", "A Knight at the Supermarket", "My Ghastly Roommate"],
+    "Mystery": ["The Dame in the Rain", "Murder at Snowfall Manor", "The Librarian's Secret"],
+    "Adventure": ["The Lost Island of Xylos", "The Curse of Pharaoh Ankhotep", "Journey to the Core"],
+    "Slice of Life": ["First Bloom of Spring", "A Quiet Afternoon", "City Lights"],
+    "Western": ["Dust Devil", "The Noon Train to Redemption", "Fool's Gold"],
+    "Historical Fiction": ["The Emperor's Scroll", "The Baker of Bastille", "Whispers of the Crown"],
+    "Young Adult (YA)": ["The Secret Academy", "The Cave of Whispering Lights", "The Sundering Trials"],
+    "Save the World": ["The Herald", "First Contact", "The Chosen One's Burden"],
+    "Zombie Apocalypse": ["The Awakening", "Last Stand at the Mega Mart", "The Long Road to Haven"],
+    "Post-Apocalyptic": ["Chronicles of a Scavenger", "The Last Broadcast", "The Walker's Path"],
+    "Bedtime Story": ["The Great Strawberry Quest", "Barnaby Badger's Rainy Day", "The Littlest Star"]
 }
 
 def create_system_prompt(genre, user_prompt, story_title):
@@ -52,6 +152,12 @@ def create_system_prompt(genre, user_prompt, story_title):
 
     --- THE UNBREAKABLE DIRECTIVE: INFORMATION & AGENCY ---
     This is your most important set of rules. You must empower the player by giving them freedom, not options.
+    
+    1.  **THOUGHT SECRECY (MOST IMPORTANT RULE):**
+        -   The player's internal thoughts, written between *asterisks*, are SECRET.
+        -   NPCs CANNOT hear, know, or react to the content of these thoughts. They can only react to the player's physical demeanor.
+        -   **BAD EXAMPLE:** Player writes: `"Hello." *I need to find the artifact.*` Your NPC responds: `"The artifact you're looking for is to the north."` (This is a FAILURE).
+        -   **GOOD EXAMPLE:** Player writes: `"Hello." *I need to find the artifact.*` Your NPC responds: `"Greetings, traveler. You seem determined about something."` (This is a SUCCESS. The NPC only notes the player's expression, not the secret thought).
 
     1.  **PLAYER AGENCY IS PARAMOUNT (NO SUGGESTED CHOICES):**
         -   You are STRICTLY FORBIDDEN from ending your responses with a list of suggested actions or multiple-choice questions.
@@ -71,15 +177,24 @@ def create_system_prompt(genre, user_prompt, story_title):
         -   **Motives are SECRET:** *Show* an NPC's intentions through action and subtext; do not *state* them.
         -   **Lore is DISCOVERED:** Reveal world history gradually through interaction, not exposition.
 
-    4.  **GENRE-SPECIFIC IMMERSION RULES:**
-        -   **If Mystery:** Never highlight clues. Describe scenes objectively.
-        -   **If Horror:** Build dread. Focus on the *impact* of the threat, not the threat itself.
-        -   **If Sci-Fi:** Do not explain unknown technology. Describe its appearance and effect.
-        -   **If Fantasy:** Do not name magical creatures until identified.
-        -   **If Romance:** Focus on subtext and body language. Do not state emotions directly.
-        -   **If Comedy:** Let absurd situations unfold. Describe ridiculous events with a serious tone.
-        -   **If Western/Historical Fiction:** Maintain period authenticity above all else.
-        -   **If Bedtime Story:** Be gentle and clear. This is an exception to the Secret Names rule.
+    --- **GENRE-SPECIFIC IMMERSION RULES (COMPLETE LIST)** ---
+    You must adapt your narrative style based on the chosen genre.
+
+    -   If **Mystery** or **Thriller:** You are FORBIDDEN from highlighting clues. Describe scenes objectively. Let the player be the detective. Maintain a sense of tension and uncertainty.
+    -   If **Horror:** Build dread slowly. Do NOT describe the threat directly. Focus on its terrifying *impact* on the environment and other characters' sanity.
+    -   If **Zombie Apocalypse:** Emphasize the constant, low-level threat of the horde. Focus on survival: the scarcity of resources (ammo, food, clean water), the fragility of safe havens, and the difficult moral choices survivors must make. The danger is as much from other desperate humans as it is from the undead.
+    -   If **Sci-Fi:** Do not explain unknown technology. Describe its alien appearance and unexplained effect. Maintain a sense of wonder or technological dread.
+    -   If **Fantasy:** Do not name magical creatures or complex spells until identified by a knowledgeable character or the player. A "towering, scaly beast" is more immersive than a "Dragon."
+    -   If **Romance:** Focus on subtext, body language, and non-verbal cues. Do not state emotions like "He is falling in love." Show it through lingering gazes, small gestures, or revealing dialogue.
+    -   If **Comedy:** Let absurd situations unfold naturally. Do not explain the joke. Your narration should often be a serious "straight man" to the player's chaotic actions.
+    -   If **Western** or **Historical Fiction:** Authenticity is key. Maintain the language, technology, and social norms of the period. Anachronisms are the biggest immersion-breakers.
+    -   If **Adventure:** Emphasize the sense of discovery and the physical journey. Describe the environment with vivid, sensory detail (the smell of the jungle, the bite of the mountain wind).
+    -   If **Save the World:** Clearly establish the high stakes from the beginning. The fate of many rests on the player's shoulders. Events should feel grand and epic in scale. The primary conflict is external and significant.
+    -   If **Slice of Life** or **Literary Fiction:** Focus on the mundane and the minute details of daily life and internal character struggles. The story's weight is in small, human moments and introspection.
+    -   If **Young Adult (YA):** Center the story on the protagonist's personal growth, relationships, and challenges. The emotional stakes for the main character are paramount.
+    -   If **Bedtime Story:** Be gentle, clear, and reassuring. The goal is comfort, not conflict. This genre is an EXCEPTION to the Secret Names rule; use names to build familiarity and safety.
+    -   If **Memoir/Biography:** Adopt a reflective, first-person narrative tone as if the narrator is recounting their own past. Focus on emotional honesty and personal experience.
+    -   If **Post-Apocalyptic:** The environment is a character. Emphasize scarcity and the remnants of the old, broken world (which may not necessarily involve zombies).
 
     --- DIALOGUE & FORMATTING ---
     - You MUST put a blank line before a character's dialogue tag.

@@ -23,7 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Setup ---
     mainTitle.setAttribute('data-text', mainTitle.textContent); // For glitch effect
-    const genres = ["Fantasy", "Sci-Fi", "Horror", "Thriller", "Romance", "Drama", "Comedy", "Mystery", "Adventure", "Slice of Life", "Western", "Historical Fiction", "Literary Fiction", "Young Adult (YA)", "Bedtime Story", "Memoir/Biography", "Post-Apocalyptic"];
+    const genres = ["Fantasy", "Sci-Fi", "Horror", "Thriller", "Romance", "Drama", "Comedy", 
+    "Mystery", "Adventure", "Slice of Life", "Western", "Historical Fiction", 
+    "Young Adult (YA)", "Save the World", "Zombie Apocalypse", "Post-Apocalyptic",
+    "Bedtime Story", "Memoir/Biography"];
     const placeholderOption = document.createElement('option');
     placeholderOption.value = ""; placeholderOption.textContent = "Select a genre...";
     placeholderOption.disabled = true; placeholderOption.selected = true;
