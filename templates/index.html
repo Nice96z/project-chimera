@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Chimera</title>
-    <!-- Google Fonts for the futuristic look -->
+    <!-- Google Fonts for our theme -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
@@ -16,19 +16,19 @@
         <header>
             <h1>Project Chimera</h1>
             <div id="header-buttons" class="hidden">
-                <button id="help-button" title="Help">?</button>
-                <button id="back-button" title="Save and Exit">&#8617;</button>
+                <button id="help-button" title="Help" class="header-btn">?</button>
+                <button id="back-button" title="Save and Exit" class="header-btn">&#8617;</button>
             </div>
         </header>
 
+        
         <main id="main-content">
             <!-- MAIN MENU VIEW -->
             <div id="main-menu-view">
-                <!-- Staggered animation added -->
                 <div id="load-game-section" class="hidden animate-on-load">
                     <h2>Continue Story</h2>
                     <div class="select-wrapper">
-                        <select id="saved-games-select" name="saved_game"></select>
+                        <select id="saved-games-select"></select>
                     </div>
                     <div class="load-buttons">
                         <button id="load-game-button">Continue</button>
@@ -37,33 +37,30 @@
                     <hr class="divider">
                 </div>
                 <div id="setup-screen" class="setup-container">
-                    <!-- Staggered animation added -->
                     <h2 class="animate-on-load" style="animation-delay: 0.2s;">Create a New Universe</h2>
                     <form id="creation-form" autocomplete="off">
                         <div class="form-group animate-on-load" style="animation-delay: 0.4s;">
                             <label for="genre-select">Choose Your Genre</label>
-                            <div class="select-wrapper"><select id="genre-select" name="genre"></select></div>
+                            <div class="select-wrapper"><select id="genre-select" required></select></div>
                         </div>
                         <div class="form-group animate-on-load" style="animation-delay: 0.5s;">
                             <label for="user-vision-input">Describe Your Starting Situation</label>
-                            <input type="text" id="user-vision-input" placeholder="">
+                            <input type="text" id="user-vision-input" required>
                         </div>
                         <div class="form-group animate-on-load" style="animation-delay: 0.6s;">
                             <label for="story-title-input">Give Your Story a Title</label>
-                            <input type="text" id="story-title-input" placeholder="">
+                            <input type="text" id="story-title-input" required>
                         </div>
-                        <button id="start-game-button" class="hidden">Begin</button>
+                        <button type="submit" id="start-game-button" class="hidden">Begin</button>
                     </form>
                 </div>
             </div>
 
             <!-- GAME VIEW (Initially Hidden) -->
             <div id="game-view" class="hidden">
-                <div id="story-window">
-                    <!-- Story messages will be added here by JavaScript -->
-                </div>
+                <div id="story-window"></div>
                 <div id="input-area">
-                    <input type="text" id="user-input" placeholder="What happens next?">
+                    <textarea id="user-input" placeholder="What happens next?" rows="1"></textarea>
                     <button id="send-button" title="Send">&#10148;</button>
                 </div>
             </div>
@@ -83,6 +80,13 @@
         </div>
     </div>
 
+    <!-- This is where we inject our dynamic data from Flask -->
+    <script>
+        const genres = {{ genres|tojson }};
+        const genreExamples = {{ genre_examples|tojson }};
+        const genreTitles = {{ genre_titles|tojson }};
+    </script>
+    <!-- This links to our main application logic -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

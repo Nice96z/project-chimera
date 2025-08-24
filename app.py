@@ -3,6 +3,7 @@
 
 import os
 import json 
+import random
 from flask import Flask, render_template, request, jsonify, session
 from dotenv import load_dotenv
 from groq import Groq
