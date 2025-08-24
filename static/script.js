@@ -173,6 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    
+
     // --- EVENT LISTENERS ---
     genreSelect.addEventListener('change', updatePlaceholders);
     loadGameButton.addEventListener('click', handleLoadGame);
@@ -185,3 +187,4 @@ document.addEventListener('DOMContentLoaded', () => {
     helpModal.addEventListener('click', (event) => { if (event.target === helpModal) { helpModal.classList.add('hidden'); } });
     backButton.addEventListener('click', () => { if (confirm("Are you sure? Your progress is saved.")) { window.location.reload(); } });
 });
+
